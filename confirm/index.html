@@ -31,13 +31,20 @@
     box-shadow: 8px 8px 0 #1A1A1A;
     max-width: 420px; width: 100%; padding: 32px 28px; text-align: center;
   }
-  .wordmark {
-    display: inline-block; background: #A78BFA; color: #1A1A1A;
-    border: 3px solid #1A1A1A; border-radius: 16px; box-shadow: 4px 4px 0 #1A1A1A;
-    font-weight: 900; font-size: 26px; letter-spacing: 3px;
-    padding: 8px 22px; margin-bottom: 26px;
+  .logo {
+    width: 96px; height: 96px; display: block; margin: 0 auto 26px;
+    border: 3px solid #1A1A1A; border-radius: 26px; box-shadow: 5px 5px 0 #1A1A1A;
+    background: #A78BFA;
   }
-  .badge { font-size: 44px; line-height: 1; margin-bottom: 12px; }
+  /* Ink-style status badge: chunky circle, thick outline, offset shadow —
+     same design language as the app (no OS emoji). */
+  .badge {
+    width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%;
+    border: 3px solid #1A1A1A; box-shadow: 4px 4px 0 #1A1A1A;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .badge.ok { background: #7CE7A8; }
+  .badge.warn { background: #FFE8A3; }
   h1 { font-size: 24px; font-weight: 900; margin: 0 0 12px; }
   p { font-size: 16px; line-height: 1.5; margin: 0; }
   .hint { margin-top: 18px; font-size: 13px; color: #9A8FB5; }
@@ -46,15 +53,26 @@
 </head>
 <body>
   <main class="card">
-    <div class="wordmark">JUDE</div>
+    <img class="logo" src="jude-icon.png" alt="JUDE">
     <section id="success" class="hidden">
-      <div class="badge">&#x2705;</div>
+      <div class="badge ok" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24">
+          <path d="M4.5 12.5 L9.5 17.5 L19.5 6.5" fill="none" stroke="#1A1A1A"
+                stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <h1>You&rsquo;re confirmed!</h1>
       <p>Your email is verified. Head back to the <strong>JUDE</strong> app and sign in.</p>
       <p class="hint">You can close this page.</p>
     </section>
     <section id="expired" class="hidden">
-      <div class="badge">&#x23F0;</div>
+      <div class="badge warn" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24">
+          <path d="M12 4.5 v9" fill="none" stroke="#1A1A1A"
+                stroke-width="4" stroke-linecap="round"/>
+          <circle cx="12" cy="19" r="2.4" fill="#1A1A1A"/>
+        </svg>
+      </div>
       <h1>This link has expired</h1>
       <p>It was already used or is out of date. Open the <strong>JUDE</strong> app and
          sign up again with the same email &mdash; we&rsquo;ll send you a fresh link.</p>
