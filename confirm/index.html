@@ -1,0 +1,72 @@
+<!doctype html>
+<!--
+  JUDE — "email confirmed" landing page.
+
+  Sign-up confirmation emails link here (via Supabase's verify endpoint, which
+  confirms the account and then redirects the browser to this page).
+    on success the URL ends with  #access_token=...   (a login token)
+    on a used/expired link it ends with  #error=...&error_code=otp_expired
+  The inline script shows the matching message and immediately strips the
+  fragment from the address bar; the token is never stored or sent anywhere —
+  the user simply returns to the JUDE app and signs in.
+
+  Source of truth: this repo. The app repo's backend/SETUP.md documents how the
+  redirect URLs point here.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>JUDE — email confirmation</title>
+<style>
+  body {
+    margin: 0; padding: 24px; box-sizing: border-box;
+    background: #FFF9E8; color: #1A1A1A;
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    background: #FFFFFF; border: 3px solid #1A1A1A; border-radius: 24px;
+    box-shadow: 8px 8px 0 #1A1A1A;
+    max-width: 420px; width: 100%; padding: 32px 28px; text-align: center;
+  }
+  .wordmark {
+    display: inline-block; background: #A78BFA; color: #1A1A1A;
+    border: 3px solid #1A1A1A; border-radius: 16px; box-shadow: 4px 4px 0 #1A1A1A;
+    font-weight: 900; font-size: 26px; letter-spacing: 3px;
+    padding: 8px 22px; margin-bottom: 26px;
+  }
+  .badge { font-size: 44px; line-height: 1; margin-bottom: 12px; }
+  h1 { font-size: 24px; font-weight: 900; margin: 0 0 12px; }
+  p { font-size: 16px; line-height: 1.5; margin: 0; }
+  .hint { margin-top: 18px; font-size: 13px; color: #9A8FB5; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="wordmark">JUDE</div>
+    <section id="success" class="hidden">
+      <div class="badge">&#x2705;</div>
+      <h1>You&rsquo;re confirmed!</h1>
+      <p>Your email is verified. Head back to the <strong>JUDE</strong> app and sign in.</p>
+      <p class="hint">You can close this page.</p>
+    </section>
+    <section id="expired" class="hidden">
+      <div class="badge">&#x23F0;</div>
+      <h1>This link has expired</h1>
+      <p>It was already used or is out of date. Open the <strong>JUDE</strong> app and
+         sign up again with the same email &mdash; we&rsquo;ll send you a fresh link.</p>
+      <p class="hint">Already confirmed earlier? Just sign in as usual.</p>
+    </section>
+  </main>
+  <script>
+    var frag = new URLSearchParams(location.hash.slice(1));
+    var state = frag.get("error") ? "expired" : "success";
+    document.getElementById(state).classList.remove("hidden");
+    // Hygiene: remove the token/error fragment from the address bar right away.
+    history.replaceState(null, "", location.pathname);
+  </script>
+</body>
+</html>
